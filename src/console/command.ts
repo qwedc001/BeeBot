@@ -28,17 +28,17 @@ export class Command {
                 continue;
             }
             if (snips[0] == 'colony') {
-                Process.startProcess(new ProcessColonize(flag.pos.roomName, snips[1],'main'));
+                Process.startProcess(new ProcessColonize(flag.pos.roomName, snips[1], 'main'));
                 flag.remove();
                 continue;
             }
             if (snips[0] == 'colonyRes') {
-                Process.startProcess(new ProcessColonize(flag.pos.roomName, snips[1],'resource'));
+                Process.startProcess(new ProcessColonize(flag.pos.roomName, snips[1], 'resource'));
                 flag.remove();
                 continue;
             }
             if (snips[0] == 'colonyGcl') {
-                Process.startProcess(new ProcessColonize(flag.pos.roomName, snips[1],'gcl'));
+                Process.startProcess(new ProcessColonize(flag.pos.roomName, snips[1], 'GCL'));
                 flag.remove();
                 continue;
             }
@@ -119,7 +119,22 @@ export class Command {
         }
 
     };
+
+    public static resetRoomType( confirm: boolean = false )
+    {
+        if( !confirm )
+        {
+            log.debug('[resetRoomType]危险操作!确认要将所有房间设置为主房吗?确认请输入resetRoomType(true)')
+            return
+        }   
+        _.forEach(Game.rooms, room => {
+            if(Memory.beebot.colonies[room.name])
+                Memory.beebot.colonies[room.name].type = 'main';
+        });
+        log.debug('[resetRoomType]所有房间已经被设置为主房!')
+    }
 }
 
 // 挂载全局函数
 global.resourceStat = Command.resourceStat;
+global.resetRoomType = Command.resetRoomType

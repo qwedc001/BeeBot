@@ -24,5 +24,6 @@ declare namespace NodeJS {
 		LastMemory: any;
 		Memory: any;
 		resourceStat: ( resourceType?:ResourceConstant, split:boolean) => void;
+		resetRoomType: ( ) => void;
 	}
 }
