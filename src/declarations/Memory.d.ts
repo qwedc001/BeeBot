@@ -83,4 +83,3 @@ interface PowerCreepMemory {
     _trav: TravelData;
 }
 
-type RoomType = 'main' | 'resource' | 'GCL'

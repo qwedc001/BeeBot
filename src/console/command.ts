@@ -119,22 +119,7 @@ export class Command {
         }
 
     };
-
-    public static resetRoomType( confirm: boolean = false )
-    {
-        if( !confirm )
-        {
-            log.debug('[resetRoomType]危险操作!确认要将所有房间设置为主房吗?确认请输入resetRoomType(true)')
-            return
-        }   
-        _.forEach(Game.rooms, room => {
-            if(Memory.beebot.colonies[room.name])
-                Memory.beebot.colonies[room.name].type = 'main';
-        });
-        log.debug('[resetRoomType]所有房间已经被设置为主房!')
-    }
 }
 
 // 挂载全局函数
 global.resourceStat = Command.resourceStat;
-global.resetRoomType = Command.resetRoomType
