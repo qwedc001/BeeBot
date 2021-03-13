@@ -28,17 +28,7 @@ export class Command {
                 continue;
             }
             if (snips[0] == 'colony') {
-                Process.startProcess(new ProcessColonize(flag.pos.roomName, snips[1],'main'));
-                flag.remove();
-                continue;
-            }
-            if (snips[0] == 'colonyRes') {
-                Process.startProcess(new ProcessColonize(flag.pos.roomName, snips[1],'resource'));
-                flag.remove();
-                continue;
-            }
-            if (snips[0] == 'colonyGcl') {
-                Process.startProcess(new ProcessColonize(flag.pos.roomName, snips[1],'gcl'));
+                Process.startProcess(new ProcessColonize(flag.pos.roomName, snips[1]));
                 flag.remove();
                 continue;
             }

@@ -22,9 +22,8 @@ const PIONEER_COUNT = 3;
 export class ProcessColonize extends Process {
     public from: string;
     public claimed: boolean;
-    public type: string;
 
-    constructor(roomName: string, from: string, type: string) {
+    constructor(roomName: string, from: string) {
         super(roomName, PROCESS_COLONIZE);
         this.wishManager = new WishManager(from, roomName, this);
         this.wishManager.setDefault('budget', Infinity);
@@ -40,9 +39,8 @@ export class ProcessColonize extends Process {
     }
 
     public static getInstance(proto: protoProcessColonize, roomName: string) {
-        const process = new ProcessColonize(roomName, proto.from, proto.type);
+        const process = new ProcessColonize(roomName, proto.from);
         process.claimed = proto.claimed;
-        process.type = proto.type;
         return process;
     }
 
@@ -51,7 +49,6 @@ export class ProcessColonize extends Process {
         this.memory.claimed = claimed;
         if (claimed) {
             BaseConstructor.get(this.roomName).clearRoom();
-            
             const result = RoomPlanner.planRoom(this.roomName, undefined);
             if (result.result) {
                 BaseConstructor.get(this.roomName).constructBuildings();

@@ -33,7 +33,6 @@ interface Memory {
 }
 
 interface RoomMemory {
-    type: string
     avoid: number;
 
     allot: { [type: number]: protoAllotUnit[]; };
