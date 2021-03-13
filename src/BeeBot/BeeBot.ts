@@ -281,7 +281,7 @@ export class BeeBot {
 
         const hostiles = room.find(FIND_HOSTILE_CREEPS).filter(creep => hasAggressiveParts(creep, true)
             && creep.owner.username != 'Invader');
-        if (hostiles.length && Memory.beebot.colonies[roomName].type == 'main') {
+        if (hostiles.length && Memory.beebot.colonies[room.name].type == 'main') {
             if (!BeeBot.isDefending(room.name)) BeeBot.activateDefendMode(room.name);
         } else if (BeeBot.isDefending(room.name)) BeeBot.cancelDefendMode(room.name);
 
