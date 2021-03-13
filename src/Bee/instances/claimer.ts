@@ -21,7 +21,7 @@ export class BeeClaimer extends Bee {
                 }
                 else {
                     this.process.setClaimed(true);
-                    this.room.memory.type = this.process.type
+                    Memory.beebot.colonies[this.room.name].type = this.process.type
                     this.suicide();
                     return;
                 }

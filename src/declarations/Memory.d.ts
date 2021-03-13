@@ -8,8 +8,9 @@ interface Memory {
             [roomName: string]: {
                 stage: ColonyStage,
                 defending: boolean,
+                type: string
             }
-        }
+        },
     }
     processes: {
         [processName: string]: {
@@ -33,7 +34,6 @@ interface Memory {
 }
 
 interface RoomMemory {
-    type: string
     avoid: number;
 
     allot: { [type: number]: protoAllotUnit[]; };

@@ -257,8 +257,8 @@ export class BeeBot {
         else return 'early';
     }
 
-    public static colonize(from: string, to: string) {
-        Process.startProcess(new ProcessColonize(to, from));
+    public static colonize(from: string, to: string, type: string) {
+        Process.startProcess(new ProcessColonize(to, from, type));
     }
 
     public static getColonyStage(roomName: string): ColonyStage | undefined {
