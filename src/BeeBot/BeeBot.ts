@@ -151,11 +151,12 @@ export class BeeBot {
     }
 
     private static startEarlyOutposts(roomName: string) {
-        this.getEarlyOutposts(roomName).forEach(outpost => {
-            if (Process.getProcess<ProcessMineSource>(roomName, PROCESS_MINE_SOURCE, 'target', outpost)) return;
-            const process = new ProcessMineSource(roomName, outpost, true);
-            Process.startProcess(process);
-        });
+        if( Memory.beebot.colonies[roomName].type == 'main' )
+            this.getEarlyOutposts(roomName).forEach(outpost => {
+                if (Process.getProcess<ProcessMineSource>(roomName, PROCESS_MINE_SOURCE, 'target', outpost)) return;
+                const process = new ProcessMineSource(roomName, outpost, true);
+                Process.startProcess(process);
+            });
     }
 
     public static cancelEarlyOutposts(roomName: string) {
@@ -168,7 +169,7 @@ export class BeeBot {
 
     private static onColonyStageUpgrade(roomName: string, stage: ColonyStage) {
         this.setColonyStage(roomName, stage);
-        if (stage == 'medium') {
+        if (stage == 'medium' && Memory.beebot.colonies[roomName].type == 'main' ) {
             this.arrangeOutposts(roomName);
             this.cancelEarlyOutposts(roomName);
             Process.startProcess(new ProcessCarry(roomName, roomName));
@@ -190,14 +191,16 @@ export class BeeBot {
     public static initializeColony(roomName: string) {
         const stage = this.judgeColonyStage(roomName);
         this.setColonyStage(roomName, stage);
-
-        if (!Process.getProcess(roomName, PROCESS_FILLING))
-            Process.startProcess(new ProcessFilling(roomName));
-        if (!Process.getProcess(roomName, PROCESS_MINE_SOURCE))
-            Process.startProcess(new ProcessMineSource(roomName, roomName));
-        if (!Process.getProcess(roomName, PROCESS_BASE_WORK))
-            Process.startProcess(new ProcessBaseWork(roomName));
-        this.startEarlyOutposts(roomName);
+        if( Memory.beebot.colonies[roomName].type == 'main' )
+        {
+            if (!Process.getProcess(roomName, PROCESS_FILLING))
+                Process.startProcess(new ProcessFilling(roomName));
+            if (!Process.getProcess(roomName, PROCESS_MINE_SOURCE))
+                Process.startProcess(new ProcessMineSource(roomName, roomName));
+            if (!Process.getProcess(roomName, PROCESS_BASE_WORK))
+                Process.startProcess(new ProcessBaseWork(roomName));
+            this.startEarlyOutposts(roomName);
+        }
         BaseConstructor.get(roomName).clearRoom();
     }
 
@@ -225,12 +228,14 @@ export class BeeBot {
         if (!room) return;
         if (!Process.getProcess<ProcessTower>(roomName, PROCESS_TOWER) && room.towers.length)
             Process.startProcess(new ProcessTower(roomName));
-        if (room.extractor && !Process.getProcess<ProcessMineMineral>(roomName, PROCESS_MINE_MINERAL))
-            Process.startProcess(new ProcessMineMineral(roomName));
-        if (room.labs.length && !Process.getProcess<ProcessLabReact>(roomName, PROCESS_LAB_REACT))
-            Process.startProcess(new ProcessLabReact(roomName));
-
-        if (room.find(FIND_NUKES).length) {
+        if(Memory.beebot.colonies[roomName].type == 'main')
+        {
+            if (room.extractor && !Process.getProcess<ProcessMineMineral>(roomName, PROCESS_MINE_MINERAL))
+                Process.startProcess(new ProcessMineMineral(roomName));
+            if (room.labs.length && !Process.getProcess<ProcessLabReact>(roomName, PROCESS_LAB_REACT))
+                Process.startProcess(new ProcessLabReact(roomName)); 
+        }
+        if (room.find(FIND_NUKES).length && Memory.beebot.colonies[roomName].type == 'main' ) {
             if (!Process.getProcess<ProcessDefendNuke>(roomName, PROCESS_DEFEND_NUKE)) {
                 Process.startProcess(new ProcessDefendNuke(roomName));
                 const message = `Nuke detected!
@@ -276,7 +281,7 @@ export class BeeBot {
 
         const hostiles = room.find(FIND_HOSTILE_CREEPS).filter(creep => hasAggressiveParts(creep, true)
             && creep.owner.username != 'Invader');
-        if (hostiles.length) {
+        if (hostiles.length && Memory.beebot.colonies[roomName].type == 'main') {
             if (!BeeBot.isDefending(room.name)) BeeBot.activateDefendMode(room.name);
         } else if (BeeBot.isDefending(room.name)) BeeBot.cancelDefendMode(room.name);
 
