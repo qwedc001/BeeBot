@@ -257,7 +257,7 @@ export class BeeBot {
         else return 'early';
     }
 
-    public static colonize(from: string, to: string, type: string) {
+    public static colonize(from: string, to: string, type: RoomType) {
         Process.startProcess(new ProcessColonize(to, from, type));
     }
 
@@ -266,7 +266,7 @@ export class BeeBot {
     }
 
     public static setColonyStage(roomName: string, stage: ColonyStage) {
-        if (!Memory.beebot.colonies[roomName]) Memory.beebot.colonies[roomName] = { stage, defending: false };
+        if (!Memory.beebot.colonies[roomName]) Memory.beebot.colonies[roomName] = { stage, defending: false, type:'main'};
         else Memory.beebot.colonies[roomName].stage = stage;
     }
 

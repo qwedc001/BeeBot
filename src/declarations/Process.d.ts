@@ -67,7 +67,7 @@ type protoProcessCarry = protoProcess & {
 type protoProcessColonize = protoProcess & {
     from: string;
     claimed: boolean;
-    type: string;
+    type: RoomType;
 };
 
 type protoProcessDefendInvader = protoProcess & {

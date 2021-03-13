@@ -8,7 +8,7 @@ interface Memory {
             [roomName: string]: {
                 stage: ColonyStage,
                 defending: boolean,
-                type: string
+                type: RoomType
             }
         },
     }
@@ -82,3 +82,5 @@ type BeeManagerMemory = CreepMemory & {
 interface PowerCreepMemory {
     _trav: TravelData;
 }
+
+type RoomType = 'main' | 'resource' | 'GCL'

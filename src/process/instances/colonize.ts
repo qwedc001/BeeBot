@@ -22,13 +22,14 @@ const PIONEER_COUNT = 3;
 export class ProcessColonize extends Process {
     public from: string;
     public claimed: boolean;
-    public type: string;
+    public type: RoomType;
 
-    constructor(roomName: string, from: string, type: string) {
+    constructor(roomName: string, from: string, type: RoomType) {
         super(roomName, PROCESS_COLONIZE);
         this.wishManager = new WishManager(from, roomName, this);
         this.wishManager.setDefault('budget', Infinity);
         this.from = from;
+        this.type = type;
     }
 
     public get memory(): protoProcessColonize {
