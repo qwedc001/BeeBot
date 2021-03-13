@@ -24,12 +24,12 @@ export class ProcessColonize extends Process {
     public claimed: boolean;
     public type: RoomType;
 
-    constructor(roomName: string, from: string, type: RoomType) {
+    constructor(roomName: string, from: string, type?: RoomType) {
         super(roomName, PROCESS_COLONIZE);
         this.wishManager = new WishManager(from, roomName, this);
         this.wishManager.setDefault('budget', Infinity);
         this.from = from;
-        this.type = type;
+        this.type = type!;
     }
 
     public get memory(): protoProcessColonize {
